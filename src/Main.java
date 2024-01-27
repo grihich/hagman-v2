@@ -1,4 +1,8 @@
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -113,8 +117,13 @@ public class Main {
     }
 
     public static String getRandomWord() {
-        int randomInt = random.nextInt(WORDS_LIST.length);
-        return WORDS_LIST[randomInt];
+
+        try {
+            List<String> list = Files.readAllLines(Paths.get("src/words.txt"));
+            return list.get(random.nextInt(list.size()));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public static void startRoundLoop(String hiddenWord) {
